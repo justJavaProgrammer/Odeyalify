@@ -1,0 +1,1 @@
+INSERT INTO users(id, account_created_time, email, image, name, password) VALUES ('9abc89b27d81e3ec017d81e54d830000', '2021-12-12', '1@gmail.com', 'image cover', 'name', '1')

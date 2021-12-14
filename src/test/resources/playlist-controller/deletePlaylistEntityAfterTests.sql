@@ -1,0 +1,1 @@
+DELETE FROM playlists WHERE id='9abc89b27d8f87e3017d8f892c3c0000'

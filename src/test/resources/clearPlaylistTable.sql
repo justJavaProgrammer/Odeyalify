@@ -1,0 +1,3 @@
+DELETE FROM playlists_songs WHERE TRUE;
+DELETE FROM playlists_users WHERE TRUE;
+DELETE FROM playlists WHERE TRUE;

@@ -1,0 +1,3 @@
+INSERT INTO playlists(id, auditions, description, playlist_access_link, playlist_cover_image_url, playlist_name, playlist_type, author_id)
+VALUES ('9abc89b27d8f87e3017d8f892c3c0001',  0, 'description', 'Access_link3', 'cover_image', 'name', 'ACCESS_BY_LINK', '9abc89b27d81e3ec017d81e54d830000');
+INSERT INTO playlists_users(playlist_id, access_users_id) VALUES ('9abc89b27d8f87e3017d8f892c3c0001', '9abc89b27d81e3ec017d81e54d830000');

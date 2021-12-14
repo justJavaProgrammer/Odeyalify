@@ -1,0 +1,9 @@
+DELETE FROM playlists_songs WHERE TRUE;
+DELETE FROM playlists WHERE TRUE;
+DELETE FROM playlists_users WHERE TRUE;
+DELETE from artists_albums WHERE TRUE;
+DELETE from albums_songs WHERE TRUE;
+DELETE from songs WHERE TRUE;
+DELETE FROM albums WHERE TRUE;
+DELETE FROM artists WHERE TRUE;
+DELETE FROM users WHERE TRUE;

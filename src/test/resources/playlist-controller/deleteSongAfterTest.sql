@@ -1,0 +1,1 @@
+DELETE FROM songs WHERE song_id='9abc89b27d8f8227017d8f8375d10002'

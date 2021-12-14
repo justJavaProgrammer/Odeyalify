@@ -1,0 +1,1 @@
+update users set image = replace(image, '//', '/')
