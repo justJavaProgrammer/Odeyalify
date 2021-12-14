@@ -13,7 +13,7 @@ public class AlbumInformation extends Information<AlbumDetailDTO> {
 
     @JsonProperty("album")
     @Override
-    public AlbumDetailDTO getObject() {
+    public AlbumDetailDTO getInformation() {
         return this.albumDetailDTO;
     }
 }

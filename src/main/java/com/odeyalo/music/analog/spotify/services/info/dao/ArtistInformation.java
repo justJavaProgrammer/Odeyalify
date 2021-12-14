@@ -11,7 +11,7 @@ public class ArtistInformation extends Information<ArtistDetailDTO> {
     }
     @Override
     @JsonProperty("artistDto")
-    public ArtistDetailDTO getObject() {
+    public ArtistDetailDTO getInformation() {
         return this.artistDetailDTO;
     }
 }

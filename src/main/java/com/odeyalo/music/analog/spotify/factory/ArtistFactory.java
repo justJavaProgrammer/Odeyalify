@@ -1,6 +1,5 @@
 package com.odeyalo.music.analog.spotify.factory;
 
-import com.odeyalo.music.analog.spotify.dto.AlbumDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.ArtistDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.response.ArtistResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Artist;
@@ -17,7 +16,7 @@ public class ArtistFactory {
     }
 
     public static Artist buildArtistFromArtistInformation(ArtistInformation information) {
-        String artistId = information.getObject().getArtistId();
+        String artistId = information.getInformation().getArtistId();
         return ArtistFactory.artistRepository.findById(artistId).orElse(null);
     }
     public static Artist buildArtistFromArtistDetailDTO(ArtistDetailDTO dto) {

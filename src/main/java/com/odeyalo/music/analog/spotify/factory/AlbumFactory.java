@@ -30,7 +30,7 @@ public class AlbumFactory {
         return AlbumDetailDTO.buildAlbumDtoFromAlbumEntity(album);
     }
     public static Album buildAlbumFromAlbumInformation(AlbumInformation information) {
-        String albumId = information.getObject().getAlbumId();
+        String albumId = information.getInformation().getAlbumId();
         return AlbumFactory.albumRepository.findById(albumId).orElse(null);
     }
 }
