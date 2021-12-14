@@ -6,7 +6,7 @@ public interface Counter<T> {
     /**
      *
      * @param countObject object that must be updated with new data
-     * @param authentication 
+     * @param authentication
      */
     T count(T countObject, Authentication authentication);
 }
