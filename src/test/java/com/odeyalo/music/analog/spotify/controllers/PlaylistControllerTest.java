@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/insertDataBeforeTest.sql","/createPublicPlaylist.sql", "/createPrivatePlaylist.sql", "/createAccessByLinkPlaylist.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {"/insertDataBeforeTest.sql","/createPublicPlaylist.sql", "/createPrivatePlaylist.sql", "/createAccessByLinkPlaylist.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = {"/clearPlaylistTable.sql", "/deleteDataAfterTest.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class PlaylistControllerTest {
     @Autowired

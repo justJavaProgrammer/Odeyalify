@@ -1,2 +1,8 @@
-{ "playlistName": "aboba",
-  "description": "ab"}
+{
+  "albumName": "Жвачка2",
+  "songs" : [
+    {"name" : "Жвачка"},
+    {"name":  "Song name"}
+
+  ]
+}

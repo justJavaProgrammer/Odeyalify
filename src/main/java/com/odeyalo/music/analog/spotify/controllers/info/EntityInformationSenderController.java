@@ -54,7 +54,7 @@ public class EntityInformationSenderController {
 
     @GetMapping("/album/{id}")
     public ResponseEntity<?> getInfoAboutAlbumById(@PathVariable("id") String id) throws Exception {
-        AlbumInformation albumInformation = (AlbumInformation) albumInformationSenderService.getInfo(id);
+        AlbumInformation albumInformation =  albumInformationSenderService.getInfo(id);
         return new ResponseEntity<>(albumInformation, HttpStatus.OK);
     }
     @GetMapping("/playlist/{id}")

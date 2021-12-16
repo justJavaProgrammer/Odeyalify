@@ -7,6 +7,7 @@ import com.odeyalo.music.analog.spotify.support.AtomicLongConverter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -129,6 +130,8 @@ public class Playlist {
     }
 
     public void addUser(User user) {
+        if(this.accessUsers == null)
+            this.accessUsers = new LinkedHashSet<>();
         this.accessUsers.add(user);
     }
 

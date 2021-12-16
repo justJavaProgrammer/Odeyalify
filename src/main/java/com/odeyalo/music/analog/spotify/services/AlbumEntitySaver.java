@@ -1,12 +1,14 @@
 package com.odeyalo.music.analog.spotify.services;
 
+import com.odeyalo.music.analog.spotify.dto.request.AlbumWithImageDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.entity.Artist;
-import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
 import com.odeyalo.music.analog.spotify.repositories.AlbumRepository;
+import com.odeyalo.music.analog.spotify.services.install.AlbumAvatarInstallerService;
 import com.odeyalo.music.analog.spotify.services.upload.UploadFileService;
+import com.odeyalo.music.analog.spotify.utils.FileUtils;
 import com.odeyalo.music.analog.spotify.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,38 +20,44 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
-public class AlbumEntitySaver implements Saver<Album> {
+public class AlbumEntitySaver implements Saver<AlbumWithImageDTO> {
     private final AlbumRepository albumRepository;
     private final UploadFileService uploadFileService;
+    private final AlbumAvatarInstallerService avatarInstallerService;
 
     @Autowired
-    public AlbumEntitySaver(AlbumRepository albumRepository, @Qualifier("uploadAudioFileService") UploadFileService uploadFileService) {
+    public AlbumEntitySaver(AlbumRepository albumRepository, @Qualifier("uploadAudioFileService") UploadFileService uploadFileService, AlbumAvatarInstallerService avatarInstallerService) {
         this.albumRepository = albumRepository;
         this.uploadFileService = uploadFileService;
+        this.avatarInstallerService = avatarInstallerService;
     }
 
     @Override
     @Transactional
-    public void save(MultipartFile[] files, Album album, UserDetails details) throws Exception {
-        User user = UserDetailsUtils.getUserFromUserDetails(details);
+    public void save(MultipartFile[] songs, AlbumWithImageDTO albumWithImageDTO, UserDetails details) throws Exception {
+        if(songs.length != albumWithImageDTO.getAlbum().getSongCount())
+            throw new NoSuchElementException("Audio files more then album info");
+        checkFiles(songs);
+        Album album = albumWithImageDTO.getAlbum();
         Artist artist = UserDetailsUtils.getArtistFromUserDetails(details);
-        List<Song> createdSongs = getCreatedSongs(files, album, user, artist);
+        List<Song> createdSongs = getCreatedSongs(songs, album, artist);
         Album buildAlbum = this.buildAlbum(album);
         this.setSongsForAlbum(createdSongs, buildAlbum);
-        this.updateAlbumIfExist(album);
-
+        buildAlbum = this.updateAlbumIfExist(album);
+        MultipartFile albumCover = albumWithImageDTO.getAlbumCover();
+        this.avatarInstallerService.installAvatar(albumCover, buildAlbum);
     }
 
-    private List<Song> getCreatedSongs(MultipartFile[] files, Album album, User user, Artist artist) throws IOException, NotSupportedFileTypeException {
+    private List<Song> getCreatedSongs(MultipartFile[] files, Album album, Artist artist) throws IOException, NotSupportedFileTypeException {
         List<Song> songs = album.getSongs();
         album.setArtist(artist);
         for (int i = 0; i < songs.size(); i++) {
             MultipartFile file = files[i];
             Song song = songs.get(i);
-            String path = uploadFileService.upload(file, user);
+            String path = uploadFileService.upload(file, artist.getUser());
             songs.set(i, createSong(song, artist, path));
         }
         return songs;
@@ -78,11 +86,10 @@ public class AlbumEntitySaver implements Saver<Album> {
                 .buildSong();
     }
 
-    private Album setSongsForAlbum(List<Song> songs, Album album) {
+    private void setSongsForAlbum(List<Song> songs, Album album) {
         songs.forEach(song -> {
             song.setAlbum(album);
         });
-        return album;
     }
 
     private void saveSongsForArtist(List<Song> songs, Artist artist) {
@@ -94,15 +101,24 @@ public class AlbumEntitySaver implements Saver<Album> {
         return artist;
     }
 
-    private void updateAlbumIfExist(Album album) {
-            Album builtAlbum = buildAlbum(album);
-            Artist albumOwner = album.getArtist();
-            List<Song> albumSongs = album.getSongs();
-            Artist updatedArtist = setAlbumForArtist(builtAlbum, albumOwner);
+    private void checkFiles(MultipartFile[] files) throws NotSupportedFileTypeException {
+        for (MultipartFile file : files) {
+            if (!FileUtils.isAudioContentFile(file)) {
+                throw new NotSupportedFileTypeException
+                        (String.format("File with type: %s not supported. Supported file types: mp3, ogg", FileUtils.getFileExtension(file)));
+            }
+        }
+    }
 
-            saveSongsForArtist(albumSongs, updatedArtist);
-            album.setArtist(updatedArtist);
-            setSongsForAlbum(albumSongs, builtAlbum);
-            this.albumRepository.save(builtAlbum);
+    private Album updateAlbumIfExist(Album album) {
+        Album builtAlbum = buildAlbum(album);
+        Artist albumOwner = album.getArtist();
+        List<Song> albumSongs = album.getSongs();
+        Artist updatedArtist = setAlbumForArtist(builtAlbum, albumOwner);
+
+        saveSongsForArtist(albumSongs, updatedArtist);
+        album.setArtist(updatedArtist);
+        setSongsForAlbum(albumSongs, builtAlbum);
+        return this.albumRepository.save(builtAlbum);
     }
 }

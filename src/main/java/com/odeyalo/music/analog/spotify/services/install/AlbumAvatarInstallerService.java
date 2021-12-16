@@ -22,7 +22,7 @@ public class AlbumAvatarInstallerService implements AvatarInstaller<Album> {
     @Override
     public Album installAvatar(MultipartFile file, Album album) throws Exception {
         String fileName = this.uploadFileService.upload(file, album.getArtist().getUser());
-        album.setCoverImageUrl(ImageConstants.ROOT_PATH_TO_ALBUM_COVER_IMAGE + fileName + FileUtils.getFileExtension(file));
+        album.setCoverImageUrl(ImageConstants.DEFAULT_IMAGE_FILE_URL + fileName + FileUtils.getFileExtension(file));
         return this.aLbumEntityUpdater.update(album);
     }
 }

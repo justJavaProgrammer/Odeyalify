@@ -2,7 +2,7 @@ package com.odeyalo.music.analog.spotify.services.handle;
 
 import com.odeyalo.music.analog.spotify.entity.User;
 
-public interface Handler<T> {
+public interface CreateHandler<T> {
 
-    void handle(T t, User user);
+    void create(T t, User user);
 }

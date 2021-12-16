@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
@@ -78,11 +79,14 @@ public class ExceptionHandlerController {
     public ResponseEntity<?> handleInvalidLinkException(InvalidLinkException exception) {
         return this.getResponseEntity(false, exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(value = NoSuchElementException.class)
+    public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException exception) {
+        return this.getResponseEntity(false, exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
     private ResponseEntity<?> getResponseEntity(boolean isSuccess, String message, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();
         body.put("success", isSuccess);
         body.put("message", message);
-        ResponseEntity<?> responseEntity = new ResponseEntity<>(body, status);
-        return responseEntity;
+        return new ResponseEntity<>(body, status);
     }
 }

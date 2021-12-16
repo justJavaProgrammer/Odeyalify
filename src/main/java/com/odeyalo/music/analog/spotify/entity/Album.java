@@ -21,7 +21,7 @@ public class Album {
     private Integer yearIssue;
     @ManyToOne
     private Artist artist;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Song> songs;
     private Integer songCount;
 
@@ -94,12 +94,9 @@ public class Album {
     }
 
     public Integer getSongCount() {
-        return songCount;
+        return this.getSongs().size();
     }
 
-    public void setSongCount(Integer songCount) {
-        this.songCount = songCount;
-    }
 
 
     public static AlbumBuilder getAlbumBuilder() {

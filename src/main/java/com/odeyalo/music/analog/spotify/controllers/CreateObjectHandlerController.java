@@ -5,7 +5,7 @@ import com.odeyalo.music.analog.spotify.dto.response.UserResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Playlist;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.factory.PlaylistFactory;
-import com.odeyalo.music.analog.spotify.services.handle.Handler;
+import com.odeyalo.music.analog.spotify.services.handle.CreateHandler;
 import com.odeyalo.music.analog.spotify.services.register.CustomUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/create")
 public class CreateObjectHandlerController {
-    private Handler<Playlist> playlistHandler;
+    private CreateHandler<Playlist> playlistCreateHandler;
 
-    public CreateObjectHandlerController(Handler<Playlist> playlistHandler) {
-        this.playlistHandler = playlistHandler;
+    public CreateObjectHandlerController(CreateHandler<Playlist> playlistCreateHandler) {
+        this.playlistCreateHandler = playlistCreateHandler;
     }
 
     @PostMapping(value = "/playlist")
@@ -28,7 +28,7 @@ public class CreateObjectHandlerController {
 
         User user = details.getUser();
         playlistDetailDTO.setUserInfo(new UserResponseDTO(user.getId(), user.getName()));
-        this.playlistHandler.handle(PlaylistFactory.buildPlaylistEntityFromPlaylistDTO(playlistDetailDTO), user);
+        this.playlistCreateHandler.create(PlaylistFactory.buildPlaylistEntityFromPlaylistDTO(playlistDetailDTO), user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

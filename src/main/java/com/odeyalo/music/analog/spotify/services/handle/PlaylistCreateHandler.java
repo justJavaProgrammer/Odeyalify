@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 @Service
-public class PlaylistHandler implements Handler<Playlist> {
+public class PlaylistCreateHandler implements CreateHandler<Playlist> {
     private PlaylistRepository playlistRepository;
-    private Logger logger = LoggerFactory.getLogger(PlaylistHandler.class);
-    public PlaylistHandler(PlaylistRepository playlistRepository) {
+    private Logger logger = LoggerFactory.getLogger(PlaylistCreateHandler.class);
+    public PlaylistCreateHandler(PlaylistRepository playlistRepository) {
         this.playlistRepository = playlistRepository;
     }
 
     @Override
-    public void handle(Playlist playlist, User user) {
+    public void create(Playlist playlist, User user) {
         Playlist createdPlaylist = createPlaylist(playlist);
-        playlist.addUser(user);
+//        playlist.addUser(user);
         Playlist save = this.playlistRepository.save(createdPlaylist);
         this.logger.info("Save playlist with id: {}", save.getId());
 

@@ -55,12 +55,12 @@ public class SongEntitySaver implements Saver<List<Song>> {
     public void buildAndSaveSong(MultipartFile[] files, List<Song> songs, User user)
             throws IOException, NotSupportedFileTypeException {
         Artist artist = this.artistRepository.findArtistByUser(user);
+        List<Song> createdSongs = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
             String path = this.uploadFileAndGetPath(files[i], user);
-            Song song = this.createSong(songs.get(i), artist, path);
-            this.logger.info("Song: {}", song);
-            this.songRepository.save(song);
+            createdSongs.add(this.createSong(songs.get(i), artist, path));
         }
+        this.songRepository.saveAll(createdSongs);
         this.saveSongsForArtist(artist, songs);
     }
 
