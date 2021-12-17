@@ -83,6 +83,7 @@ public class ExceptionHandlerController {
     public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException exception) {
         return this.getResponseEntity(false, exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     private ResponseEntity<?> getResponseEntity(boolean isSuccess, String message, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();
         body.put("success", isSuccess);
