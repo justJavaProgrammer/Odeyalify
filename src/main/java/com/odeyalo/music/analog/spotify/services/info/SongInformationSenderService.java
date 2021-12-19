@@ -20,14 +20,14 @@ public class SongInformationSenderService implements InformationSenderService<So
     }
 
     @Override
-    public Information getInfo(String id) throws Exception {
+    public SongInformation getInfo(String id) throws Exception {
         Song song = songRepository.findById(id).orElseThrow(() ->
                 new SongNotFoundException(String.format("Song with id: %s does`nt exist", id)));
         return getInfo(song);
     }
 
     @Override
-    public Information getInfo(Song song) throws Exception {
+    public SongInformation getInfo(Song song) throws Exception {
         this.logger.info("song: {}", song);
         return new SongInformation(SongDetailDTO.buildSongDtoFromSongEntity(song));
     }
