@@ -6,7 +6,7 @@ import com.odeyalo.music.analog.spotify.entity.Playlist;
 import com.odeyalo.music.analog.spotify.exceptions.PlaylistAccessException;
 import com.odeyalo.music.analog.spotify.exceptions.PlaylistNotFoundException;
 import com.odeyalo.music.analog.spotify.factory.PlaylistFactory;
-import com.odeyalo.music.analog.spotify.services.PlaylistHandlerService;
+import com.odeyalo.music.analog.spotify.services.handle.PlaylistHandlerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,11 +29,6 @@ public class PlaylistController {
         this.playlistAccessChecker = playlistAccessChecker;
     }
 
-    //    @GetMapping("/{id}")
-//    public ResponseEntity<?> getPlaylistById(@PathVariable String id) {
-//        Playlist playlist = this.playlistHandlerService.getPlaylistById(id);
-//        return new ResponseEntity<>(PlaylistFactory.buildPlaylistDTOFromPlaylistEntity(playlist), HttpStatus.OK);
-//    }
     @GetMapping("/link/{id}")
     public void checkLinkAndGiveAccess(@PathVariable String id, Authentication authentication, HttpServletResponse servletResponse) throws IOException {
         Playlist playlist = this.playlistHandlerService.giveAccessForUser(id, authentication);
