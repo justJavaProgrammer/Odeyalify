@@ -22,7 +22,7 @@ public class Album {
     @ManyToOne
     private Artist artist;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Song> songs;
+    private Set<Song> songs;
     private Integer songCount;
 
     public Album() {}
@@ -31,7 +31,7 @@ public class Album {
                   String coverImageUrl,
                   Integer yearIssue,
                   Artist artist,
-                  List<Song> songs,
+                  Set<Song> songs,
                   Integer songCount) {
         this.id = id;
         this.albumName = albumName;
@@ -85,12 +85,16 @@ public class Album {
         this.artist = artist;
     }
 
-    public List<Song> getSongs() {
+    public Set<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(Set<Song> songs) {
         this.songs = songs;
+    }
+
+    public void setSongCount(Integer songCount) {
+        this.songCount = songCount;
     }
 
     public Integer getSongCount() {
@@ -122,7 +126,7 @@ public class Album {
         private String coverImageUrl;
         private Integer yearIssue;
         private Artist artist;
-        private List<Song> songs;
+        private Set<Song> songs;
         private Integer songCount;
 
         public AlbumBuilder setId(String id) {
@@ -149,7 +153,7 @@ public class Album {
             return this;
         }
 
-        public AlbumBuilder setSongs(List<Song> songs) {
+        public AlbumBuilder setSongs(Set<Song> songs) {
             this.songs = songs;
             return this;
         }
