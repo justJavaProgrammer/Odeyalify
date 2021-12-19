@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.services.upload;
 
-import com.odeyalo.music.analog.spotify.ImageConstants;
+import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
 import com.odeyalo.music.analog.spotify.support.ImageNameGenerator;
