@@ -5,7 +5,7 @@ import com.odeyalo.music.analog.spotify.dto.response.UserResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Playlist;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.factory.PlaylistFactory;
-import com.odeyalo.music.analog.spotify.services.handle.CreateHandler;
+import com.odeyalo.music.analog.spotify.services.handle.create.CreateHandler;
 import com.odeyalo.music.analog.spotify.services.register.CustomUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
