@@ -42,7 +42,7 @@ public class EntityInformationSenderController {
 
     @GetMapping("/artist/{id}")
     public ResponseEntity<?> getInfoAboutArtistById(@PathVariable("id") String id) {
-        ArtistInformation artistInfo = (ArtistInformation) this.artistInformationSenderService.getInfo(id);
+        ArtistInformation artistInfo =  this.artistInformationSenderService.getInfo(id);
         return new ResponseEntity<>(artistInfo, HttpStatus.OK);
     }
 
