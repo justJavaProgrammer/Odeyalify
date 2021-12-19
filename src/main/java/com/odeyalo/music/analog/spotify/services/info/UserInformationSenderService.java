@@ -23,17 +23,18 @@ public class UserInformationSenderService implements InformationSenderService<Us
         this.repository = repository;
     }
     @Override
-    public Information getInfo(String id) throws UserNotFoundException {
+    public UserInformation getInfo(String id) throws UserNotFoundException {
         User user = repository.findById(id).orElseThrow(() ->
                 new UserNotFoundException(String.format("user with id: %s does`nt exist", id)));
         return getInfo(user);
     }
+
     @Override
-    public Information getInfo(User user) {
+    public UserInformation getInfo(User user) {
         return new UserInformation(UserDetailDTO.buildUserDtoFromUserObject(user));
     }
 
-    public Information getInfo(UserDetails details) throws UserNotFoundException {
+    public UserInformation getInfo(UserDetails details) throws UserNotFoundException {
         if(!UserDetailsUtils.isValidCustomDetails(details)) {
             logger.error("Not supported user details. User details class: {}", details.getClass());
             throw new NotSupportedUserDetailsException(String.format("Not supported user details. User details class: %s", details.getClass()));
