@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify;
+package com.odeyalo.music.analog.spotify.constants;
 
 import com.odeyalo.music.analog.spotify.entity.enums.Role;
 

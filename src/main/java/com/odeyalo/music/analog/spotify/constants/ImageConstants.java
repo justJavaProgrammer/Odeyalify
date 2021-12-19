@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify;
+package com.odeyalo.music.analog.spotify.constants;
 
 public class ImageConstants {
     public static final String DEFAULT_IMAGE_FILE_URL = "http://localhost:63342/spotify/img/avatars/";

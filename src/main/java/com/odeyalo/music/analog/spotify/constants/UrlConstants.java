@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify;
+package com.odeyalo.music.analog.spotify.constants;
 
 public class UrlConstants {
     public static final String DEFAULT_AUTH_URL = "/auth";
