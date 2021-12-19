@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.entity;
 
-import com.odeyalo.music.analog.spotify.ImageConstants;
+import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.enums.PlaylistType;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.support.AtomicLongConverter;
@@ -28,7 +28,7 @@ public class Playlist {
     @ManyToMany
     private List<Song> songs;
     @Convert(converter = AtomicLongConverter.class)
-    private AtomicLong auditions;
+    private AtomicLong auditions = new AtomicLong(0);
     @Enumerated(value = EnumType.STRING)
     private PlaylistType playlistType = PlaylistType.PRIVATE;
     @ManyToMany
