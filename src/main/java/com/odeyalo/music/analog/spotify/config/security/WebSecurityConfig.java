@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.config.security;
 
-import com.odeyalo.music.analog.spotify.UrlConstants;
+import com.odeyalo.music.analog.spotify.constants.UrlConstants;
 import com.odeyalo.music.analog.spotify.config.security.filters.TokenAuthenticationFilter;
 import com.odeyalo.music.analog.spotify.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.odeyalo.music.analog.spotify.services.register.support.CustomUserDetailsService;
