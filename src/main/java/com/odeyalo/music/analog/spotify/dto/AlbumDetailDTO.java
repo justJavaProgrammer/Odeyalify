@@ -3,6 +3,8 @@ package com.odeyalo.music.analog.spotify.dto;
 import com.odeyalo.music.analog.spotify.dto.response.ArtistResponseDTO;
 import com.odeyalo.music.analog.spotify.dto.response.SongResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
