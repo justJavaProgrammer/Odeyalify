@@ -1,9 +1,7 @@
 package com.odeyalo.music.analog.spotify.services.upload;
 
-import com.odeyalo.music.analog.spotify.AudioConstants;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
-import com.odeyalo.music.analog.spotify.repositories.SongRepository;
 import com.odeyalo.music.analog.spotify.support.AudioFileNameGenerator;
 import com.odeyalo.music.analog.spotify.support.NameGenerator;
 import com.odeyalo.music.analog.spotify.utils.FileUtils;
