@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.controllers.register;
 
-import com.odeyalo.music.analog.spotify.UrlConstants;
+import com.odeyalo.music.analog.spotify.constants.UrlConstants;
 import com.odeyalo.music.analog.spotify.config.security.jwt.http.requests.TokenRefreshRequest;
 import com.odeyalo.music.analog.spotify.config.security.jwt.http.response.JwtTokenRefreshResponse;
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.TokenRefresher;
