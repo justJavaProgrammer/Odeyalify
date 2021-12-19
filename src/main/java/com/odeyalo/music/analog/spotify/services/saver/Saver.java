@@ -1,9 +1,7 @@
-package com.odeyalo.music.analog.spotify.services;
+package com.odeyalo.music.analog.spotify.services.saver;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import com.odeyalo.music.analog.spotify.entity.User;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 public interface Saver<T> {
     /**
@@ -12,6 +10,6 @@ public interface Saver<T> {
      * @param user - user that upload this file
      * @throws Exception
      */
-    void save(MultipartFile[] files, T obj, UserDetails user) throws Exception;
+    void save(MultipartFile[] files, T obj, User user) throws Exception;
 
 }
