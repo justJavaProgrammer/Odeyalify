@@ -16,14 +16,14 @@ public class ArtistInformationSenderService implements InformationSenderService<
         this.artistRepository = artistRepository;
     }
     @Override
-    public Information getInfo(String id) throws ArtistNotFoundException {
+    public ArtistInformation getInfo(String id) throws ArtistNotFoundException {
         Artist artist =
                 this.artistRepository.findById(id)
                         .orElseThrow(() -> new ArtistNotFoundException(String.format("Not found artist with id: %s", id)));
         return getInfo(artist);
     }
     @Override
-    public Information getInfo(Artist artist) {
+    public ArtistInformation getInfo(Artist artist) {
         return new ArtistInformation(ArtistDetailDTO.buildArtistDtoFromArtistEntity(artist));
     }
 }
