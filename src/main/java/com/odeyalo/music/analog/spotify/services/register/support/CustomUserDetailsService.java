@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.services.register.support;
 
-import com.odeyalo.music.analog.spotify.Constants;
+import com.odeyalo.music.analog.spotify.constants.Constants;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.services.register.CustomUserDetails;
 import com.odeyalo.music.analog.spotify.repositories.UserRepository;
