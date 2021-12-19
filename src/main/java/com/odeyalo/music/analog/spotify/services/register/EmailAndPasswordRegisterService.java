@@ -1,7 +1,7 @@
 package com.odeyalo.music.analog.spotify.services.register;
 
-import com.odeyalo.music.analog.spotify.Constants;
-import com.odeyalo.music.analog.spotify.ImageConstants;
+import com.odeyalo.music.analog.spotify.constants.Constants;
+import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.RefreshToken;
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.RefreshTokenService;
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.TokenRefresher;
