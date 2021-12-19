@@ -21,14 +21,14 @@ public class PlaylistInformationSenderService implements InformationSenderServic
     }
 
     @Override
-    public Information getInfo(String id) throws Exception {
+    public PlaylistInformation getInfo(String id) throws Exception {
         Playlist playlist = this.playlistRepository.findById(id).orElseThrow(() ->
                 new PlaylistNotFoundException(String.format("Playlist with id %s not found", id)));
         return getInfo(playlist);
     }
 
     @Override
-    public Information getInfo(Playlist playlist) throws Exception {
+    public PlaylistInformation getInfo(Playlist playlist) throws Exception {
         return new PlaylistInformation(PlaylistFactory.buildPlaylistDTOFromPlaylistEntity(playlist));
     }
 }
