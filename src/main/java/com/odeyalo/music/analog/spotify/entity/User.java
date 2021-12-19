@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.entity;
 
-import com.odeyalo.music.analog.spotify.ImageConstants;
+import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.enums.Role;
 import org.hibernate.annotations.GenericGenerator;
 
