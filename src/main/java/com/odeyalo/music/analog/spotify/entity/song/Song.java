@@ -19,10 +19,10 @@ public class Song {
     @Column(nullable = false, length = 1000)
     private String name;
     @Convert(converter = AtomicLongConverter.class)
-    private AtomicLong auditions;
+    private AtomicLong auditions = new AtomicLong(0);
     @Column(length = 1000)
     private String songCover;
-    @Column(updatable = false, length = 2500)
+    @Column(length = 2500)
     private String filePath;
     @ManyToOne
     private Artist artist;
