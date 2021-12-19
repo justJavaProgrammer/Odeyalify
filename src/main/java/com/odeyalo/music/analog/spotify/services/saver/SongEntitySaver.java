@@ -1,22 +1,17 @@
-package com.odeyalo.music.analog.spotify.services;
+package com.odeyalo.music.analog.spotify.services.saver;
 
-import com.odeyalo.music.analog.spotify.ImageConstants;
+import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.entity.Artist;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
-import com.odeyalo.music.analog.spotify.exceptions.NotSupportedUserDetailsException;
-import com.odeyalo.music.analog.spotify.repositories.AlbumRepository;
 import com.odeyalo.music.analog.spotify.repositories.ArtistRepository;
 import com.odeyalo.music.analog.spotify.repositories.SongRepository;
-import com.odeyalo.music.analog.spotify.services.register.CustomUserDetails;
 import com.odeyalo.music.analog.spotify.services.upload.UploadFileService;
-import com.odeyalo.music.analog.spotify.utils.UserDetailsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,42 +38,34 @@ public class SongEntitySaver implements Saver<List<Song>> {
 
     @Override
     @Transactional
-    public void save(MultipartFile[] files, List<Song> songs, UserDetails details) throws IOException, NotSupportedFileTypeException {
-        if (!UserDetailsUtils.isValidCustomDetails(details)) {
-            throw new NotSupportedUserDetailsException(String.format("Not supported user details. User details class: %s", details.getClass()));
-        }
-        CustomUserDetails customUserDetails = (CustomUserDetails) details;
-        User user = customUserDetails.getUser();
+    public void save(MultipartFile[] files, List<Song> songs, User user) throws IOException, NotSupportedFileTypeException {
         buildAndSaveSong(files, songs, user);
     }
 
-    public void buildAndSaveSong(MultipartFile[] files, List<Song> songs, User user)
-            throws IOException, NotSupportedFileTypeException {
+    public void buildAndSaveSong(MultipartFile[] files, List<Song> songs, User user) throws IOException, NotSupportedFileTypeException {
         Artist artist = this.artistRepository.findArtistByUser(user);
         List<Song> createdSongs = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
             String path = this.uploadFileAndGetPath(files[i], user);
-            createdSongs.add(this.createSong(songs.get(i), artist, path));
+            Song song = this.createSong(songs.get(i), artist, path);
+            createdSongs.add(song);
         }
-        this.songRepository.saveAll(createdSongs);
-        this.saveSongsForArtist(artist, songs);
+        List<Song> savedSongs = this.songRepository.saveAll(createdSongs);
+        Artist forSave = this.saveSongsForArtist(artist, savedSongs);
+        this.artistRepository.save(forSave);
     }
 
     private Song createSong(Song song, Artist artist, String path) {
-        Song result = Song
-                .getSongBuilder()
-                .setName(song.getName())
-                .setSongCover(song.getSongCover() == null ? ImageConstants.DEFAULT_USER_AVATAR_URL : song.getSongCover())
-                .setAudioFile(path)
-                .setArtist(artist)
-                .setAlbum(song.getAlbum() == null ? Album.getAlbumBuilder().setAlbumName(song.getName()).build() : song.getAlbum())
-                .buildSong();
-        logger.info("Build song: {}, album avatar: {}, album name: {}", result, result.getAlbum().getCoverImageUrl(), result.getAlbum().getAlbumName());
-        return result;
+        song.setSongCover(song.getSongCover() == null ? ImageConstants.DEFAULT_USER_AVATAR_URL : song.getSongCover());
+        song.setAlbum(song.getAlbum() == null ? Album.getAlbumBuilder().setAlbumName(song.getName()).build() : song.getAlbum());
+        song.setFilePath(path);
+        song.setArtist(artist);
+        return song;
     }
 
-    private void saveSongsForArtist(Artist artist, List<Song> songs) {
+    private Artist saveSongsForArtist(Artist artist, List<Song> songs) {
         songs.forEach(song -> artist.getSongs().add(song));
+        return artist;
     }
 
     private String uploadFileAndGetPath(MultipartFile file, User user) throws IOException, NotSupportedFileTypeException {
