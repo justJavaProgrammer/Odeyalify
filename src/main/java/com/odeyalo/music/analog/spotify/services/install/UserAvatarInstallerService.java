@@ -1,9 +1,8 @@
 package com.odeyalo.music.analog.spotify.services.install;
 
-import com.odeyalo.music.analog.spotify.ImageConstants;
+import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
-import com.odeyalo.music.analog.spotify.services.install.AvatarInstaller;
 import com.odeyalo.music.analog.spotify.services.upload.UploadFileService;
 import com.odeyalo.music.analog.spotify.update.Updater;
 import com.odeyalo.music.analog.spotify.utils.FileUtils;
