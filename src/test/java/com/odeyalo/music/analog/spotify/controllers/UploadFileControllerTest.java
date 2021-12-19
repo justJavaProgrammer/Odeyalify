@@ -3,6 +3,7 @@ package com.odeyalo.music.analog.spotify.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odeyalo.music.analog.spotify.config.security.jwt.utils.JwtUtils;
 import com.odeyalo.music.analog.spotify.entity.Album;
+import com.odeyalo.music.analog.spotify.entity.Artist;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.repositories.AlbumRepository;
 import com.odeyalo.music.analog.spotify.repositories.ArtistRepository;
@@ -27,9 +28,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -40,7 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UploadFileControllerTest {
     private final String AUDIO_TEST_FILE_PATH = "music/resources/revenge.mp3";
     private final String IMAGE_TEST_FILE_PATH = "music/resources/test.jpg";
-//    private final String IMAGE_TEST_FILE_PATH = "music/resources/test.jpg";
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
@@ -71,10 +73,18 @@ class UploadFileControllerTest {
     @DisplayName("Test upload audio file by artist ")
     void uploadAlbumByArtist_andExpect200() throws Exception {
         testUploadValidFile(ARTIST_EMAIL, AUDIO_TEST_FILE_PATH, IMAGE_TEST_FILE_PATH, status().isOk());
+        List<Song> songs = this.songRepository.findAll();
+        Song song = songs.get(0);
+        Artist artist = this.artistRepository.findAll().get(0);
         assertEquals(1, this.albumRepository.findAll().size());
-        assertEquals(1, this.songRepository.findAll().size());
-        assertEquals(1, this.artistRepository.findAll().get(0).getSongs().size());
+        assertEquals(1, songs.size());
+        assertEquals(1, artist.getSongs().size());
+        assertEquals(1, artist.getAlbums().size());
         assertEquals(1, FileUtils.listFiles(new File(PATH_TO_SAVE_FILES), null, false).size());
+        assertEquals("Song1", song.getName());
+        assertEquals("Album name", song.getAlbum().getAlbumName());
+        assertNotNull(song.getFilePath());
+
     }
 
     @Test
@@ -109,7 +119,7 @@ class UploadFileControllerTest {
         List<Song> songs = new ArrayList<>();
         songs.add(Song.getSongBuilder().setName("Song1").buildSong());
         songs.add(Song.getSongBuilder().setName("Song2").buildSong());
-        album.setSongs(songs);
+        album.setSongs(new HashSet<>(songs));
         String requestJson = this.objectMapper.writeValueAsString(album);
         InputStream audio = getFileInputStream(AUDIO_TEST_FILE_PATH);
         InputStream image = getFileInputStream(IMAGE_TEST_FILE_PATH);
@@ -130,7 +140,7 @@ class UploadFileControllerTest {
         Album album = buildAlbum();
         List<Song> songs = new ArrayList<>();
         songs.add(Song.getSongBuilder().setName("Song1").buildSong());
-        album.setSongs(songs);
+        album.setSongs(new HashSet<>(songs));
         String requestJson = this.objectMapper.writeValueAsString(album);
         InputStream audio = getFileInputStream(audioPath);
         InputStream image = getFileInputStream(imagePath);
