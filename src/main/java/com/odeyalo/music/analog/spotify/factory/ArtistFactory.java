@@ -3,6 +3,7 @@ package com.odeyalo.music.analog.spotify.factory;
 import com.odeyalo.music.analog.spotify.dto.ArtistDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.response.ArtistResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Artist;
+import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.repositories.ArtistRepository;
 import com.odeyalo.music.analog.spotify.services.info.dao.ArtistInformation;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,9 @@ public class ArtistFactory {
 
     public static ArtistDetailDTO buildArtistDetailDTOFromArtistEntity(Artist artist) {
         return ArtistDetailDTO.buildArtistDtoFromArtistEntity(artist);
+    }
+
+    public static Artist getArtistFromUser(User user) {
+        return ArtistFactory.artistRepository.findArtistByUser(user);
     }
 }
