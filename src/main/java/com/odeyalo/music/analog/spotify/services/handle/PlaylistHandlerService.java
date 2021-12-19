@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify.services;
+package com.odeyalo.music.analog.spotify.services.handle;
 
 import com.odeyalo.music.analog.spotify.dto.request.PlaylistManipulateDTO;
 import com.odeyalo.music.analog.spotify.entity.Playlist;
@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class PlaylistHandlerService {
+public class PlaylistHandlerService{
     private PlaylistRepository playlistRepository;
     private SongRepository songRepository;
     private Logger logger = LoggerFactory.getLogger(PlaylistHandlerService.class);
