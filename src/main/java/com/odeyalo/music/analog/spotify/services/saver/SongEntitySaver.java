@@ -9,6 +9,7 @@ import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException
 import com.odeyalo.music.analog.spotify.repositories.ArtistRepository;
 import com.odeyalo.music.analog.spotify.repositories.SongRepository;
 import com.odeyalo.music.analog.spotify.services.upload.UploadFileService;
+import com.odeyalo.music.analog.spotify.storage.FileStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,12 +29,14 @@ public class SongEntitySaver implements Saver<List<Song>> {
     private final SongRepository songRepository;
     private final ArtistRepository artistRepository;
     private final UploadFileService audioFileUploader;
+    private final FileStorage fileStorage;
     private final Logger logger = LoggerFactory.getLogger(SongEntitySaver.class);
 
-    public SongEntitySaver(SongRepository songRepository, ArtistRepository repository, @Qualifier("uploadAudioFileService") UploadFileService audioFileUploader) {
+    public SongEntitySaver(SongRepository songRepository, ArtistRepository repository, @Qualifier("uploadAudioFileService") UploadFileService audioFileUploader, @Qualifier("localAudioFileStorage") FileStorage fileStorage) {
         this.songRepository = songRepository;
         this.artistRepository = repository;
         this.audioFileUploader = audioFileUploader;
+        this.fileStorage = fileStorage;
     }
 
     @Override
@@ -69,6 +72,6 @@ public class SongEntitySaver implements Saver<List<Song>> {
     }
 
     private String uploadFileAndGetPath(MultipartFile file, User user) throws IOException, NotSupportedFileTypeException {
-        return this.audioFileUploader.upload(file, user);
+        return this.audioFileUploader.upload(file, user, fileStorage);
     }
 }
