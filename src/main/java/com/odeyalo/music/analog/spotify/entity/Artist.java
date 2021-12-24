@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "artists")
@@ -16,30 +17,32 @@ public class Artist {
     private String id;
     @OneToOne
     private User user;
-    private Long subscribers;
+    private Long numberOfSubscribers;
     private Long monthlyListeners;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Song> songs;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Album> albums;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "artist_subscribers")
+    private Set<Subscriber> subscribers;
 
-    public Artist() {
-    }
+    public Artist() {}
 
-    private Artist(User user, Long subscribers, Long monthlyListeners, List<Song> songs, List<Album> albums) {
+    private Artist(User user, Long numberOfSubscribers, Long monthlyListeners, List<Song> songs, List<Album> albums) {
         this.user = user;
-        this.subscribers = subscribers;
+        this.numberOfSubscribers = numberOfSubscribers;
         this.monthlyListeners = monthlyListeners;
         this.songs = songs;
         this.albums = albums;
     }
 
-    public Long getSubscribers() {
-        return subscribers;
+    public Long getNumberOfSubscribers() {
+        return numberOfSubscribers;
     }
 
-    public void setSubscribers(Long subscribers) {
-        this.subscribers = subscribers;
+    public void setNumberOfSubscribers(Long numberOfSubscribers) {
+        this.numberOfSubscribers = numberOfSubscribers;
     }
 
     public Long getMonthlyListeners() {
@@ -82,6 +85,17 @@ public class Artist {
         this.albums.add(album);
     }
 
+    public Set<Subscriber> getSubscribers() {
+        return subscribers;
+    }
+
+    public void subscribeUser(Subscriber user) {
+        this.subscribers.add(user);
+    }
+    public void unsubscribeUser(Subscriber user) {
+        this.subscribers.remove(user);
+    }
+
     public ArtistBuilder getArtistBuilder() {
         return new ArtistBuilder();
     }
@@ -91,11 +105,13 @@ public class Artist {
         return "Artist{" +
                 "id=" + id +
                 ", user=" + user +
-                ", subscribers=" + subscribers +
+                ", subscribers=" + numberOfSubscribers +
                 ", monthlyListeners=" + monthlyListeners +
                 ", songs=" + songs.size() +
                 '}';
     }
+
+
 
     public static class ArtistBuilder {
         private User user;

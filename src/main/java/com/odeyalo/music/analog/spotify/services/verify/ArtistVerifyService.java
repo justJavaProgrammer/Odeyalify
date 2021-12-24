@@ -28,7 +28,7 @@ public class ArtistVerifyService {
         Artist artist = new Artist();
         updateUserRole(user);
         artist.setUser(user);
-        artist.setSubscribers(0L);
+        artist.setNumberOfSubscribers(0L);
         artist.setMonthlyListeners(0L);
         this.artistRepository.save(artist);
         return true;

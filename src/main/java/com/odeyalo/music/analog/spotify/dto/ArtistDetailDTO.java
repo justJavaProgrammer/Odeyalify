@@ -24,7 +24,7 @@ public class ArtistDetailDTO {
         artistDetailDTO.setArtistAlbums(artist.getAlbums().stream().map(album -> {
             return new AlbumResponseDTO(album.getAlbumName(), album.getId());
         }).collect(Collectors.toList()));
-        artistDetailDTO.setSubscribers(artist.getSubscribers());
+        artistDetailDTO.setSubscribers(artist.getNumberOfSubscribers());
         artistDetailDTO.setMonthlyListeners(artist.getMonthlyListeners());
         artistDetailDTO.setUserDTO(UserDetailDTO.buildUserDtoFromUserObject(artist.getUser()));
         return artistDetailDTO;
