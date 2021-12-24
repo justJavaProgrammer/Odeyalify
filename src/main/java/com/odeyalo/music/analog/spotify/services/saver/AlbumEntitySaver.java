@@ -4,13 +4,17 @@ import com.odeyalo.music.analog.spotify.answer.UploadFileAnswer;
 import com.odeyalo.music.analog.spotify.dto.request.AlbumWithImageDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.entity.Artist;
+import com.odeyalo.music.analog.spotify.entity.Subscriber;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
 import com.odeyalo.music.analog.spotify.factory.ArtistFactory;
 import com.odeyalo.music.analog.spotify.services.install.AlbumAvatarInstallerService;
+import com.odeyalo.music.analog.spotify.services.notification.NotificationService;
+import com.odeyalo.music.analog.spotify.services.notification.generator.mail.AlbumIsAvailableMailMessageGenerator;
 import com.odeyalo.music.analog.spotify.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,16 +23,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AlbumEntitySaver implements Saver<AlbumWithImageDTO> {
     private final AlbumAvatarInstallerService avatarInstallerService;
     private final SongEntitySaver songEntitySaver;
+    private final NotificationService notificationService;
 
     @Autowired
-    public AlbumEntitySaver(AlbumAvatarInstallerService avatarInstallerService, SongEntitySaver songEntitySaver) {
+    public AlbumEntitySaver(AlbumAvatarInstallerService avatarInstallerService, SongEntitySaver songEntitySaver, NotificationService notificationService) {
         this.avatarInstallerService = avatarInstallerService;
         this.songEntitySaver = songEntitySaver;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -48,6 +56,7 @@ public class AlbumEntitySaver implements Saver<AlbumWithImageDTO> {
         Album savedAlbum = this.saveAlbumWithAvatar(this.buildAlbum(album, artist), albumWithImageDTO.getAlbumCover());
         List<Song> songs = this.setAlbumForSongs(new ArrayList<>(album.getSongs()), savedAlbum);
         this.songEntitySaver.save(songFiles, songs, user);
+        notifyArtistSubscribers(savedAlbum);
     }
 
     private UploadFileAnswer checkFiles(MultipartFile[] files) {
@@ -76,5 +85,14 @@ public class AlbumEntitySaver implements Saver<AlbumWithImageDTO> {
             song.setAlbum(album);
         });
         return songs;
+    }
+
+    private void notifyArtistSubscribers(Album album) {
+        Set<Subscriber> subs = album.getArtist().getSubscribers();
+        if (subs.size() > 0) {
+            AlbumIsAvailableMailMessageGenerator albumIsAvailableMailMessageGenerator = new AlbumIsAvailableMailMessageGenerator();
+            SimpleMailMessage message = albumIsAvailableMailMessageGenerator.generateMessage(album, new ArrayList<>(subs));
+            this.notificationService.notifyUsers(message);
+        }
     }
 }
