@@ -2,6 +2,7 @@ package com.odeyalo.music.analog.spotify.services.upload;
 
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
+import com.odeyalo.music.analog.spotify.storage.FileStorage;
 import com.odeyalo.music.analog.spotify.support.AudioFileNameGenerator;
 import com.odeyalo.music.analog.spotify.support.NameGenerator;
 import com.odeyalo.music.analog.spotify.utils.FileUtils;
@@ -22,17 +23,16 @@ import java.nio.file.Paths;
 @Service
 public class UploadAudioFileService implements UploadFileService {
     private Logger logger = LoggerFactory.getLogger(UploadImageFileService.class);
-    @Value("${path.save-files-path}")
-    private String pathToSaveAudioData;
+
     @Override
-    public String upload(final MultipartFile file, final User user) throws NotSupportedFileTypeException, IOException {
-        if(!FileUtils.isAudioContentFile(file))
+    public String upload(final MultipartFile file, final User user, final FileStorage fileStorage) throws NotSupportedFileTypeException, IOException {
+        if (!FileUtils.isAudioContentFile(file))
             throw new NotSupportedFileTypeException
-                    (String.format("File with type: %s not supported. Supported file types: mp3, ogg",FileUtils.getFileExtension(file)));
+                    (String.format("File with type: %s not supported. Supported file types: mp3, ogg", FileUtils.getFileExtension(file)));
         final NameGenerator generator = new AudioFileNameGenerator();
         final String generatedName = generator.generateName(file.getName(), user);
-        String path = this.pathToSaveAudioData + generatedName + FileUtils.getFileExtension(file);
-        Files.write(Paths.get(path), file.getBytes());
+        String fileName = generatedName + FileUtils.getFileExtension(file);
+        String path = fileStorage.store(file, fileName);
         this.logger.info("Success save file with path: {}", path);
         return path;
     }
