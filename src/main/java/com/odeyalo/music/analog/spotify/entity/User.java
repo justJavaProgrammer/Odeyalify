@@ -30,7 +30,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
     protected Set<Role> roles;
-
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_subscriptions")
+    protected Set<Artist> subscriptions;
     public User() {
     }
 
@@ -98,6 +100,17 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<Artist> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void addSubscription(Artist artist) {
+        this.subscriptions.add(artist);
+    }
+    public void removeSubscription(Artist artist) {
+        this.subscriptions.remove(artist);
     }
 
     @Override
