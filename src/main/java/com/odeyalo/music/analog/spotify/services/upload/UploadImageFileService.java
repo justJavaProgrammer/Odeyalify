@@ -3,6 +3,7 @@ package com.odeyalo.music.analog.spotify.services.upload;
 import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedFileTypeException;
+import com.odeyalo.music.analog.spotify.storage.FileStorage;
 import com.odeyalo.music.analog.spotify.support.ImageNameGenerator;
 import com.odeyalo.music.analog.spotify.update.UserEntityUpdater;
 import com.odeyalo.music.analog.spotify.utils.FileUtils;
@@ -26,18 +27,16 @@ public class UploadImageFileService implements UploadFileService {
     }
 
     @Override
-    public String upload(MultipartFile file, User user) throws NotSupportedFileTypeException, IOException {
+    public String upload(MultipartFile file, User user, FileStorage fileStorage) throws NotSupportedFileTypeException, IOException {
         String type = file.getContentType();
         if (!FileUtils.isImageContentFile(file)) {
             this.logger.error("Error was occurred, content type is not image, {}", type);
             throw new NotSupportedFileTypeException(String.format("File with type: %s not supported. Supported file types: jpeg, png, gif, etc", FileUtils.getFileExtension(file)));
         }
         ImageNameGenerator generator = new ImageNameGenerator();
-        String fileName = generator.generateName(file.getName(), user);
-        String contentType = FileUtils.getFileExtension(file);
-        String fullPathToFile = ImageConstants.ROOT_PATH_TO_IMAGES + fileName + contentType;
-        Files.write(Paths.get(fullPathToFile), file.getBytes());
+        String fileName = generator.generateName(file.getName(), user)  + FileUtils.getFileExtension(file);
+        String path = fileStorage.store(file, fileName);
         this.logger.info("Save file with name: {}", fileName);
-        return fileName;
+        return path;
     }
 }
