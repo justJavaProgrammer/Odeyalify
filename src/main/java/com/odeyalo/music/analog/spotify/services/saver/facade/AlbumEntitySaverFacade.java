@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify.services.register.facade;
+package com.odeyalo.music.analog.spotify.services.saver.facade;
 
 import com.odeyalo.music.analog.spotify.dto.request.AlbumWithImageDTO;
 import com.odeyalo.music.analog.spotify.entity.User;
