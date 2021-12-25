@@ -4,8 +4,7 @@ import com.odeyalo.music.analog.spotify.converter.AudioConverter;
 import com.odeyalo.music.analog.spotify.dto.request.AlbumWithImageDTO;
 import com.odeyalo.music.analog.spotify.dto.request.YoutubeToMp3ConvertRequestDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
-import com.odeyalo.music.analog.spotify.services.saver.AlbumEntitySaver;
-import com.odeyalo.music.analog.spotify.services.saver.SongEntitySaver;
+import com.odeyalo.music.analog.spotify.services.register.facade.AlbumEntitySaverFacade;
 import com.odeyalo.music.analog.spotify.utils.UserDetailsUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,10 @@ import java.util.Map;
 @RequestMapping("/upload/")
 @CrossOrigin(origins = "*")
 public class UploadFileController {
-    private final AlbumEntitySaver albumEntitySaver;
+    private final AlbumEntitySaverFacade albumEntitySaver;
     private final AudioConverter audioConverter;
 
-    public UploadFileController(AlbumEntitySaver albumEntitySaver, AudioConverter audioConverter) {
+    public UploadFileController(AlbumEntitySaverFacade albumEntitySaver, AudioConverter audioConverter) {
         this.albumEntitySaver = albumEntitySaver;
         this.audioConverter = audioConverter;
     }
