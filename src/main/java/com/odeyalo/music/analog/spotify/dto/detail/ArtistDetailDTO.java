@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify.dto;
+package com.odeyalo.music.analog.spotify.dto.detail;
 
 import com.odeyalo.music.analog.spotify.dto.response.AlbumResponseDTO;
 import com.odeyalo.music.analog.spotify.dto.response.SongResponseDTO;
