@@ -69,8 +69,7 @@ class SubscribeUserControllerTest {
         User user = this.userRepository.findUserByEmail(USER_EMAIL);
         Subscriber subscriber = this.subscriberRepository.findSubscriberByUser(user);
         assertEquals(1, artist.getSubscribers().size());
-
-        assertEquals(1, user.getSubscriptions().size());
+        assertEquals(1, subscriber.getUser().getSubscriptions().size());
         assertTrue(subscriber.isEnableNotification());
     }
 
