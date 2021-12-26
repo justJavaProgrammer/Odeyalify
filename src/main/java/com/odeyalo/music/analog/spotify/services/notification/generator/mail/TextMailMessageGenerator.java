@@ -5,7 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import java.util.List;
 
-public interface MailMessageGenerator<T> {
+public interface TextMailMessageGenerator<T> {
 
     SimpleMailMessage generateMessage(T obj, Subscriber to);
 
