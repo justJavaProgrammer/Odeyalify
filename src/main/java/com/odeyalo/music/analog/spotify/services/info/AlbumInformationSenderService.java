@@ -1,11 +1,10 @@
 package com.odeyalo.music.analog.spotify.services.info;
 
-import com.odeyalo.music.analog.spotify.dto.AlbumDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.AlbumDetailDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.exceptions.AlbumNotFoundException;
 import com.odeyalo.music.analog.spotify.repositories.AlbumRepository;
 import com.odeyalo.music.analog.spotify.services.info.dao.AlbumInformation;
-import com.odeyalo.music.analog.spotify.services.info.dao.Information;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
