@@ -2,10 +2,14 @@ package com.odeyalo.music.analog.spotify.services.notification;
 
 import org.springframework.mail.SimpleMailMessage;
 
+import javax.mail.internet.MimeMessage;
+
 public interface NotificationService {
     /**
      *
-     * @param messageGenerator
+     * @param message
      */
-    void notifyUsers(SimpleMailMessage messageGenerator);
+    void notifyUsers(SimpleMailMessage message);
+
+    void notifyUsers(MimeMessage mimeMessage);
 }
