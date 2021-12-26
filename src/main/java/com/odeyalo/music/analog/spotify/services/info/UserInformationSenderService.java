@@ -1,11 +1,10 @@
 package com.odeyalo.music.analog.spotify.services.info;
 
-import com.odeyalo.music.analog.spotify.dto.UserDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.UserDetailDTO;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.NotSupportedUserDetailsException;
 import com.odeyalo.music.analog.spotify.exceptions.UserNotFoundException;
 import com.odeyalo.music.analog.spotify.repositories.UserRepository;
-import com.odeyalo.music.analog.spotify.services.info.dao.Information;
 import com.odeyalo.music.analog.spotify.services.info.dao.UserInformation;
 import com.odeyalo.music.analog.spotify.services.register.CustomUserDetails;
 import com.odeyalo.music.analog.spotify.utils.UserDetailsUtils;

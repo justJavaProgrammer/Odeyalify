@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify.dto;
+package com.odeyalo.music.analog.spotify.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.odeyalo.music.analog.spotify.services.info.dao.Information;

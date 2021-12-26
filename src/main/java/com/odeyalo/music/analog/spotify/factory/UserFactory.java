@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.factory;
 
-import com.odeyalo.music.analog.spotify.dto.UserDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.UserDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.response.UserResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.repositories.UserRepository;

@@ -1,10 +1,9 @@
 package com.odeyalo.music.analog.spotify.services.info;
 
-import com.odeyalo.music.analog.spotify.dto.SongDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.SongDetailDTO;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.exceptions.SongNotFoundException;
 import com.odeyalo.music.analog.spotify.repositories.SongRepository;
-import com.odeyalo.music.analog.spotify.services.info.dao.Information;
 import com.odeyalo.music.analog.spotify.services.info.dao.SongInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

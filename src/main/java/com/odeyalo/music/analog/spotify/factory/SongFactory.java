@@ -1,10 +1,9 @@
 package com.odeyalo.music.analog.spotify.factory;
 
-import com.odeyalo.music.analog.spotify.dto.SongDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.SongDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.response.SongResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.repositories.SongRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,14 +1,11 @@
 package com.odeyalo.music.analog.spotify.services.search;
 
-import com.odeyalo.music.analog.spotify.dto.PlaylistDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.enums.SearchType;
 import com.odeyalo.music.analog.spotify.dto.response.PlaylistResponseDTO;
-import com.odeyalo.music.analog.spotify.factory.PlaylistFactory;
 import com.odeyalo.music.analog.spotify.repositories.PlaylistRepository;
 import org.assertj.core.util.Arrays;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

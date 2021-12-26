@@ -1,7 +1,7 @@
 package com.odeyalo.music.analog.spotify.factory;
 
 import com.odeyalo.music.analog.spotify.constants.ImageConstants;
-import com.odeyalo.music.analog.spotify.dto.PlaylistDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.PlaylistDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.request.PlaylistManipulateDTO;
 import com.odeyalo.music.analog.spotify.entity.Playlist;
 import com.odeyalo.music.analog.spotify.entity.User;
