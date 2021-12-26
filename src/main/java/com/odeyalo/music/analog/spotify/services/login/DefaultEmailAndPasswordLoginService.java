@@ -2,10 +2,9 @@ package com.odeyalo.music.analog.spotify.services.login;
 
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.RefreshTokenService;
 import com.odeyalo.music.analog.spotify.config.security.jwt.utils.JwtUtils;
-import com.odeyalo.music.analog.spotify.dto.JWTResponseDto;
+import com.odeyalo.music.analog.spotify.dto.response.JWTResponseDto;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.LoginException;
-import com.odeyalo.music.analog.spotify.exceptions.UserNotFoundException;
 import com.odeyalo.music.analog.spotify.exceptions.UserException;
 import com.odeyalo.music.analog.spotify.repositories.UserRepository;
 import com.odeyalo.music.analog.spotify.services.info.UserInformationSenderService;

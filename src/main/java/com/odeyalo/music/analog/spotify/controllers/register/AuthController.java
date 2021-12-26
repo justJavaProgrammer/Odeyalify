@@ -4,7 +4,7 @@ import com.odeyalo.music.analog.spotify.constants.UrlConstants;
 import com.odeyalo.music.analog.spotify.config.security.jwt.http.requests.TokenRefreshRequest;
 import com.odeyalo.music.analog.spotify.config.security.jwt.http.response.JwtTokenRefreshResponse;
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.TokenRefresher;
-import com.odeyalo.music.analog.spotify.dto.JWTResponseDto;
+import com.odeyalo.music.analog.spotify.dto.response.JWTResponseDto;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.UserException;
 import com.odeyalo.music.analog.spotify.services.login.LoginService;

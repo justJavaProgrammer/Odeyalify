@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.controllers;
 
-import com.odeyalo.music.analog.spotify.dto.PlaylistDetailDTO;
+import com.odeyalo.music.analog.spotify.dto.detail.PlaylistDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.response.UserResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Playlist;
 import com.odeyalo.music.analog.spotify.entity.User;

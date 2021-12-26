@@ -6,7 +6,7 @@ import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.RefreshToken
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.RefreshTokenService;
 import com.odeyalo.music.analog.spotify.config.security.jwt.refresh.TokenRefresher;
 import com.odeyalo.music.analog.spotify.config.security.jwt.utils.JwtUtils;
-import com.odeyalo.music.analog.spotify.dto.JWTResponseDto;
+import com.odeyalo.music.analog.spotify.dto.response.JWTResponseDto;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.exceptions.UserAlreadyExistException;
 import com.odeyalo.music.analog.spotify.exceptions.UserException;
