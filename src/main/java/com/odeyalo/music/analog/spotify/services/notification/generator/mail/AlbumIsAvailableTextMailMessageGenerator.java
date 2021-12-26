@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AlbumIsAvailableMailMessageGenerator implements MailMessageGenerator<Album> {
+public class AlbumIsAvailableTextMailMessageGenerator implements TextMailMessageGenerator<Album> {
     private final String MESSAGE = "Hello! %s is came out new album: %s. Check it out!";
 
     @Override
