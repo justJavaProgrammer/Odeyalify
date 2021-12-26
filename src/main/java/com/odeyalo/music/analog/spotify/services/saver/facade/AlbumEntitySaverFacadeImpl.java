@@ -5,14 +5,15 @@ import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.entity.Subscriber;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.services.notification.NotificationService;
-import com.odeyalo.music.analog.spotify.services.notification.generator.mail.AlbumIsAvailableMailMessageGenerator;
+import com.odeyalo.music.analog.spotify.services.notification.generator.mail.NewAlbumHtmlMailMessageGenerator;
 import com.odeyalo.music.analog.spotify.services.saver.Saver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -33,11 +34,11 @@ public class AlbumEntitySaverFacadeImpl implements AlbumEntitySaverFacade {
         this.notifyArtistSubscribers(albumWithImageDTO.getAlbum());
     }
 
-    private void notifyArtistSubscribers(Album album) {
+    private void notifyArtistSubscribers(Album album) throws MessagingException {
         Set<Subscriber> subs = album.getArtist().getSubscribers();
         if (subs.size() > 0) {
-            AlbumIsAvailableMailMessageGenerator albumIsAvailableMailMessageGenerator = new AlbumIsAvailableMailMessageGenerator();
-            SimpleMailMessage message = albumIsAvailableMailMessageGenerator.generateMessage(album, new ArrayList<>(subs));
+            NewAlbumHtmlMailMessageGenerator generator = new NewAlbumHtmlMailMessageGenerator();
+            MimeMessage message = generator.generateMimeMessage(album, new ArrayList<>(subs));
             this.notificationService.notifyUsers(message);
         }
     }
