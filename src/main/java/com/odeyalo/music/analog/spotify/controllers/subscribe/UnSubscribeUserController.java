@@ -1,4 +1,4 @@
-package com.odeyalo.music.analog.spotify.controllers;
+package com.odeyalo.music.analog.spotify.controllers.subscribe;
 
 import com.odeyalo.music.analog.spotify.entity.Subscriber;
 import com.odeyalo.music.analog.spotify.entity.User;
@@ -14,21 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/subscribe")
-public class SubscribeUserController {
+@RequestMapping("/unsubscribe")
+public class UnSubscribeUserController {
     private final SubscribeService subscribeService;
 
-    public SubscribeUserController(SubscribeService subscribeService) {
+    public UnSubscribeUserController(SubscribeService subscribeService) {
         this.subscribeService = subscribeService;
 
     }
 
     @PostMapping("/artist")
     public ResponseEntity<?> subscribeUserToArtist(@RequestParam String id,
-                                                   @RequestParam(defaultValue = "false") boolean enableNotification,
                                                    Authentication authentication) throws Exception {
         User user = UserDetailsUtils.getUserFromUserDetails((UserDetails) authentication.getPrincipal());
-        this.subscribeService.subscribe(id, new Subscriber(user, enableNotification));
+        this.subscribeService.unsubscribe(id, new Subscriber(user));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
