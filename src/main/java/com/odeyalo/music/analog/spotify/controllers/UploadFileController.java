@@ -30,10 +30,10 @@ public class UploadFileController {
 
     @PostMapping("/album")
     public ResponseEntity<?> uploadAlbum(
-            @RequestPart Album album,
-            @RequestPart MultipartFile[] songs,
-            @RequestPart MultipartFile albumCover,
-            Authentication authentication) throws Exception {
+                @RequestPart Album album,
+                @RequestPart MultipartFile[] songs,
+                @RequestPart MultipartFile albumCover,
+                Authentication authentication) throws Exception {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         AlbumWithImageDTO albumWithImageDTO = new AlbumWithImageDTO(album, albumCover);
         this.albumEntitySaver.save(songs, albumWithImageDTO, UserDetailsUtils.getUserFromUserDetails(userDetails));
