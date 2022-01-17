@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.exceptions;
 
-public class RefreshTokenNotFoundException extends RuntimeException {
+public class RefreshTokenNotFoundException extends NotFoundException {
 
     public RefreshTokenNotFoundException(String message) {
         super(message);
