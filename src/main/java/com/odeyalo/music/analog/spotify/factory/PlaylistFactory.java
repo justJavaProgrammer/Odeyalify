@@ -3,6 +3,7 @@ package com.odeyalo.music.analog.spotify.factory;
 import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.dto.detail.PlaylistDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.request.PlaylistManipulateDTO;
+import com.odeyalo.music.analog.spotify.dto.response.PlaylistResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Playlist;
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.repositories.PlaylistRepository;
@@ -21,11 +22,13 @@ public class PlaylistFactory {
         PlaylistFactory.userRepository = userRepository;
         PlaylistFactory.playlistRepository = playlistRepository;
     }
-    //todo make album, user, artist, song factories
 
     public static Playlist buildPlaylistEntityFromPlaylistManipulateDTO(PlaylistManipulateDTO manipulateDTO) {
         Optional<Playlist> playlist = PlaylistFactory.playlistRepository.findById(manipulateDTO.getPlaylistId());
         return playlist.orElse(null);
+    }
+    public static Playlist buildPlaylistEntityFromPlaylistResponseDTO(PlaylistResponseDTO dto) {
+        return PlaylistFactory.playlistRepository.findById(dto.getPlaylistId()).orElse(null);
     }
     public static Playlist buildPlaylistEntityFromPlaylistDTO(PlaylistDetailDTO dto) {
         User author = userRepository.getById(dto.getUserInfo().getUserId());
