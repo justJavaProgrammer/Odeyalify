@@ -7,7 +7,7 @@ import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.factory.AlbumFactory;
 
 @Utility
-public class AlbumEntityTransformer<T, R> implements Transformer<Album, SearchedAlbumResponseDTO> {
+public class AlbumEntityTransformer implements Transformer<Album, SearchedAlbumResponseDTO> {
     @Override
     public SearchedAlbumResponseDTO transformToEntity(Album album) {
         return new SearchedAlbumResponseDTO(
