@@ -2,6 +2,7 @@ package com.odeyalo.music.analog.spotify.factory;
 
 import com.odeyalo.music.analog.spotify.dto.detail.AlbumDetailDTO;
 import com.odeyalo.music.analog.spotify.dto.request.AlbumRequestDTO;
+import com.odeyalo.music.analog.spotify.dto.response.AlbumResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.repositories.AlbumRepository;
 import com.odeyalo.music.analog.spotify.services.info.dao.AlbumInformation;
@@ -20,6 +21,9 @@ public class AlbumFactory {
     public static Album buildAlbumFromAlbumDTO(AlbumRequestDTO dto) {
         String albumId = dto.getAlbumId();
         return AlbumFactory.albumRepository.findById(albumId).orElse(null);
+    }
+    public static Album buildAlbumFromAlbumResponseDTO(AlbumResponseDTO dto) {
+        return AlbumFactory.albumRepository.findById(dto.getAlbumId()).orElse(null);
     }
     public static Album buildAlbumFromAlbumDetailDTO(AlbumDetailDTO dto) {
         String albumId = dto.getAlbumId();

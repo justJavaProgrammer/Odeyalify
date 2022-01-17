@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.exceptions;
 
-public class AlbumNotFoundException extends RuntimeException {
+public class AlbumNotFoundException extends NotFoundException {
 
 
     public AlbumNotFoundException(String message) {
