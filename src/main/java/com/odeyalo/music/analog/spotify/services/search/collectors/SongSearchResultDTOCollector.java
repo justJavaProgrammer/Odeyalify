@@ -18,7 +18,8 @@ public class SongSearchResultDTOCollector implements SearchResultDTOCollector {
     }
 
     @Override
-    public DetailSearchResultDTO collectData(String query, DetailSearchResultDTO detailDTO) {
+    public DetailSearchResultDTO collectData(String query) {
+        DetailSearchResultDTO detailDTO = new DetailSearchResultDTO();
         List<SearchedSongResponseDTO> songs = this.transformerFacade.execute(query);
         SearchResultDTO searchResultDTO = new SearchResultDTO();
         searchResultDTO.setSearchedSongsResults(songs);

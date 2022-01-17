@@ -15,7 +15,8 @@ public class AlbumSearchResultDTOCollector implements SearchResultDTOCollector {
     }
 
     @Override
-    public DetailSearchResultDTO collectData(String query, DetailSearchResultDTO detailDTO) {
+    public DetailSearchResultDTO collectData(String query) {
+        DetailSearchResultDTO detailDTO = new DetailSearchResultDTO();
         SearchResultDTO searchResultDTO = new SearchResultDTO();
         searchResultDTO.setSearchedAlbumsResults(this.albumTransformerFacade.execute(query));
         detailDTO.setSearchResultDTO(searchResultDTO);

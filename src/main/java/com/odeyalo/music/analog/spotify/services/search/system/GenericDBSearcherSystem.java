@@ -48,7 +48,7 @@ public class GenericDBSearcherSystem implements SearcherSystem {
         DetailSearchResultDTO dto = new DetailSearchResultDTO();
         for (SearchType type : types) {
             SearchResultDTOCollector searchResultDTOCollector = this.searcherByTypeContainer.get(type);
-            dto = searchResultDTOCollector.collectData(query, dto);
+            dto = searchResultDTOCollector.collectData(query);
         }
         TopResultDTO topResultDTO = this.topResultCalculator.calculateTopResult(dto.getSearchResultDTO());
         dto.setTopResult(topResultDTO);

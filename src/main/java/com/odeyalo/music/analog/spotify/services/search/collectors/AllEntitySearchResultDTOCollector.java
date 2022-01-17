@@ -24,7 +24,7 @@ public class AllEntitySearchResultDTOCollector implements SearchResultDTOCollect
     }
 
     @Override
-    public DetailSearchResultDTO collectData(String query, DetailSearchResultDTO dto) {
+    public DetailSearchResultDTO collectData(String query) {
         SearchResultDTO searchResultDTO = new SearchResultDTO();
         searchResultDTO.setSearchedAlbumsResults(this.albumSearchResultTransformerFacade.execute(query));
         searchResultDTO.setSearchedArtistsResults(this.artistSearchResultTransformerFacade.execute(query));

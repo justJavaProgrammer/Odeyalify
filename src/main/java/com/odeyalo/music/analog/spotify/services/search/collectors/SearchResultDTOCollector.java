@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public interface SearchResultDTOCollector {
 
-    DetailSearchResultDTO collectData(String query, DetailSearchResultDTO dto);
+    DetailSearchResultDTO collectData(String query);
 
     SearchType getSearchType();
 
