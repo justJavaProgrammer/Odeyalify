@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.exceptions;
 
-public class ArtistNotFoundException extends RuntimeException {
+public class ArtistNotFoundException extends NotFoundException {
     public ArtistNotFoundException(String message) {
         super(message);
     }

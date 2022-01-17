@@ -1,6 +1,6 @@
 package com.odeyalo.music.analog.spotify.exceptions;
 
-public class UserNotFoundException extends UserException {
+public class UserNotFoundException extends NotFoundException {
 
     public UserNotFoundException(String message) {
         super(message);
