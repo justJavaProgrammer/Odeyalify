@@ -59,7 +59,7 @@ public class SongEntitySaver implements Saver<List<Song>> {
     }
 
     private Song createSong(Song song, Artist artist, String path) {
-        song.setSongCover(song.getSongCover() == null ? ImageConstants.DEFAULT_USER_AVATAR_URL : song.getSongCover());
+        song.setSongCover(song.getAlbum().getCoverImageUrl());
         song.setAlbum(song.getAlbum() == null ? Album.getAlbumBuilder().setAlbumName(song.getName()).build() : song.getAlbum());
         song.setFilePath(path);
         song.setArtist(artist);
