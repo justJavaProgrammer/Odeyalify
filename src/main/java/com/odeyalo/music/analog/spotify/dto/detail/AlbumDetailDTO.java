@@ -3,6 +3,7 @@ package com.odeyalo.music.analog.spotify.dto.detail;
 import com.odeyalo.music.analog.spotify.dto.response.ArtistResponseDTO;
 import com.odeyalo.music.analog.spotify.dto.response.SongResponseDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
+import com.odeyalo.music.analog.spotify.entity.song.Song;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ public class AlbumDetailDTO {
     private String coverImageUrl;
     private Integer yearIssue;
     private ArtistResponseDTO artistResponseDTO;
-    private List<SongResponseDTO> songs;
+    private List<SongDetailDTO> songs;
     private Integer songCount;
 
     public static AlbumDetailDTO buildAlbumDtoFromAlbumEntity(Album album) {
@@ -21,15 +22,12 @@ public class AlbumDetailDTO {
         albumDetailDTO.setAlbumId(album.getId());
         albumDetailDTO.setAlbumName(album.getAlbumName());
         albumDetailDTO.setArtistResponseDTO(new ArtistResponseDTO(album.getArtist().getId(), album.getArtist().getUser().getName()));
-        albumDetailDTO.setSongs(album.getSongs().stream().map(song -> {
-            return new SongResponseDTO(song.getSongId(),song.getName());
-        }).collect(Collectors.toList()));
+        albumDetailDTO.setSongs(album.getSongs().stream().map(SongDetailDTO::buildSongDtoFromSongEntity).collect(Collectors.toList()));
         albumDetailDTO.setSongCount(album.getSongCount());
         albumDetailDTO.setCoverImageUrl(album.getCoverImageUrl());
         albumDetailDTO.setYearIssue(album.getYearIssue());
         return albumDetailDTO;
     }
-
     public String getAlbumId() {
         return albumId;
     }
@@ -63,11 +61,11 @@ public class AlbumDetailDTO {
     }
 
 
-    public List<SongResponseDTO> getSongs() {
+    public List<SongDetailDTO> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<SongResponseDTO> songs) {
+    public void setSongs(List<SongDetailDTO> songs) {
         this.songs = songs;
     }
 
