@@ -25,7 +25,8 @@ public class SearchDataController {
 
     @GetMapping("/any")
     public ResponseEntity<?> searchSong(@RequestParam(value = "query") String query,
-                                        @RequestParam(value = "type", defaultValue = "ALL") SearchType[] types) {
+                                        @RequestParam(value = "type", defaultValue = "ALL") SearchType[] types,
+                                        @RequestParam(value = "limit", required = false) Integer limit) {
         DetailSearchResultDTO dto = searcherSystem.searchResults(query, types);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
