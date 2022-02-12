@@ -2,6 +2,7 @@ package com.odeyalo.music.analog.spotify.services.info;
 
 import com.odeyalo.music.analog.spotify.dto.detail.AlbumDetailDTO;
 import com.odeyalo.music.analog.spotify.entity.Album;
+import com.odeyalo.music.analog.spotify.entity.song.Song;
 import com.odeyalo.music.analog.spotify.exceptions.AlbumNotFoundException;
 import com.odeyalo.music.analog.spotify.repositories.AlbumRepository;
 import com.odeyalo.music.analog.spotify.services.info.dao.AlbumInformation;
@@ -9,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlbumInformationSenderService implements InformationSenderService<AlbumDetailDTO>{
