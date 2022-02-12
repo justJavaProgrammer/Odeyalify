@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
-public class ExceptionHandlerController {
+public class GlobalExceptionHandlerController {
 
 //    @ExceptionHandler({UserException.class})
 //    public ResponseEntity<?> handleUserException(UserException exception) {
@@ -83,7 +83,10 @@ public class ExceptionHandlerController {
     public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException exception) {
         return this.getResponseEntity(false, exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(value = IncorrectDataException.class)
+    public ResponseEntity<?> handleIncorrectDataException(IncorrectDataException exception) {
+        return this.getResponseEntity(false, exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
     private ResponseEntity<?> getResponseEntity(boolean isSuccess, String message, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();
         body.put("success", isSuccess);
