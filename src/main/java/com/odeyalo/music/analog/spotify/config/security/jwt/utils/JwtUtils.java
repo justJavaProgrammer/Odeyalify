@@ -2,11 +2,16 @@ package com.odeyalo.music.analog.spotify.config.security.jwt.utils;
 
 import com.odeyalo.music.analog.spotify.entity.User;
 import com.odeyalo.music.analog.spotify.repositories.UserRepository;
+import com.odeyalo.music.analog.spotify.services.ws.JWTWebSocketTokenAuthentication;
+import com.odeyalo.music.analog.spotify.utils.UserDetailsUtils;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,10 +26,12 @@ public class JwtUtils {
     @Value("${jwt.actionTime}")
     private long jwtActionTime;
     private final UserRepository repository;
-    private Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    private final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    private final UserDetailsService userDetailsService;
 
-    public JwtUtils(UserRepository repository) {
+    public JwtUtils(UserRepository repository, UserDetailsService userDetailsService) {
         this.repository = repository;
+        this.userDetailsService = userDetailsService;
     }
 
 
@@ -48,6 +55,21 @@ public class JwtUtils {
     public boolean isTokenValid(String token, UserDetails user) {
         String usernameFromToken = getUsernameFromToken(token);
         return (user.getUsername().equals(usernameFromToken) && !isTokenExpired(token));
+    }
+
+    public Authentication getAuthenticationFromToken(String token) {
+        if (token != null) {
+            UserDetails userDetails = this.getUserDetailsFromToken(token);
+            if (userDetails != null) {
+                return new JWTWebSocketTokenAuthentication(userDetails);
+            }
+        }
+        return null;
+    }
+
+    public UserDetails getUserDetailsFromToken(String token) {
+        String email = this.getEmail(token);
+        return userDetailsService.loadUserByUsername(email);
     }
 
     public Date getExpirationDateFromToken(String token) {
