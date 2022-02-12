@@ -24,17 +24,19 @@ public class Song {
     private String songCover;
     @Column(length = 2500)
     private String filePath;
+    private Integer songIndexInAlbum;
     @ManyToOne
     private Artist artist;
     @ManyToOne
     private Album album;
     public Song() {}
 
-    public Song(String name, AtomicLong auditions, String songCover, String filePath, Artist artist, Album album) {
+    public Song(String name, AtomicLong auditions, String songCover, String filePath, Integer songIndexInAlbum, Artist artist, Album album) {
         this.name = name;
         this.auditions = auditions;
         this.songCover = songCover;
         this.filePath = filePath;
+        this.songIndexInAlbum = songIndexInAlbum;
         this.artist = artist;
         this.album = album;
     }
@@ -113,6 +115,14 @@ public class Song {
                 '}';
     }
 
+    public Integer getSongIndexInAlbum() {
+        return songIndexInAlbum;
+    }
+
+    public void setSongIndexInAlbum(Integer songIndexInAlbum) {
+        this.songIndexInAlbum = songIndexInAlbum;
+    }
+
     public static class SongBuilder {
         private String name;
         private String songCover;
@@ -120,6 +130,7 @@ public class Song {
         private Artist artist;
         private Album album;
         private static final AtomicLong INITIAL_SONG_AUDITIONS_COUNT = new AtomicLong(0L);
+        private Integer songIndexInAlbum;
 
         public SongBuilder setName(String name) {
             this.name = name;
@@ -144,10 +155,13 @@ public class Song {
             this.album = album;
             return this;
         }
+
+        public SongBuilder setSongIndexInAlbum(Integer index) {
+            this.songIndexInAlbum = index;
+            return this;
+        }
         public Song buildSong() {
-            return new Song(name, INITIAL_SONG_AUDITIONS_COUNT, songCover, filePath, artist, album);
+            return new Song(name, INITIAL_SONG_AUDITIONS_COUNT, songCover, filePath, songIndexInAlbum, artist, album);
         }
     }
-
-
 }
