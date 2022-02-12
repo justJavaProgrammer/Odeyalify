@@ -21,6 +21,7 @@ public class DefaultEmailAndPasswordLoginService implements LoginService {
     private RefreshTokenService refreshTokenService;
     private UserInformationSenderService userInformationSenderService;
     private Logger logger = LoggerFactory.getLogger(DefaultEmailAndPasswordLoginService.class);
+
     @Autowired
     public DefaultEmailAndPasswordLoginService(UserRepository userRepository, JwtUtils utils, RefreshTokenService refreshTokenService, UserInformationSenderService userInformationSenderService) {
         this.userRepository = userRepository;
@@ -37,9 +38,9 @@ public class DefaultEmailAndPasswordLoginService implements LoginService {
                 String refreshToken = this.refreshTokenService.generateRefreshToken(userFromDb).getToken();
                 logger.info("refresh token: {}", refreshToken);
                 String token = utils.generateToken(userFromDb);
-                UserInformation info = (UserInformation) userInformationSenderService.getInfo(String.valueOf(userFromDb.getId()));
-                JWTResponseDto JWTResponseDto = new JWTResponseDto(true, token, refreshToken, "Success", info);
-                return JWTResponseDto;
+                UserInformation info = userInformationSenderService.getInfo(String.valueOf(userFromDb.getId()));
+                JWTResponseDto jwtResponseDto = new JWTResponseDto(true, token, refreshToken, "Success", info);
+                return jwtResponseDto;
             }
         }
         throw new LoginException("Wrong username or password. Check your data again");
