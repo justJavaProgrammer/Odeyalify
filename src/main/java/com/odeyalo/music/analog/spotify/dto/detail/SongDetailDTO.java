@@ -22,7 +22,7 @@ public class SongDetailDTO {
                           String albumName, String albumId,
                           String songCoverImage, AtomicLong auditions) {
         this.songId = songId;
-       this.artistResponseDTO = artistResponseDTO;
+        this.artistResponseDTO = artistResponseDTO;
         this.streamSongUrl = streamSongUrl;
         this.songName = songName;
         this.albumName = albumName;

@@ -1,8 +1,8 @@
 package com.odeyalo.music.analog.spotify.config.security;
 
-import com.odeyalo.music.analog.spotify.constants.UrlConstants;
 import com.odeyalo.music.analog.spotify.config.security.filters.TokenAuthenticationFilter;
 import com.odeyalo.music.analog.spotify.config.security.jwt.JwtAuthenticationEntryPoint;
+import com.odeyalo.music.analog.spotify.constants.UrlConstants;
 import com.odeyalo.music.analog.spotify.services.register.support.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
+import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -36,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String STREAM_DATA_MATCHER = "/stream/audio/**";
     public static final String PATH_TO_RESOURCES_MATCHER = "/resources/**";
     public static final String SEARCH_DATA_MATCHER = "/search/song/**";
+    public static final String WEB_SOCKET_ENTRYPOINT_MATCHER = "/broadcast/**";
 
     @Autowired
     public WebSecurityConfig(TokenAuthenticationFilter jwtFilter) {
@@ -54,7 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(PATH_TO_RESOURCES_MATCHER,
                         ROOT_ANT_MATCHER, REGISTER_ANT_MATCHER,
-                        LOGIN_ANT_MATCHER, REFRESH_TOKEN_ANT_MATCHER, STREAM_DATA_MATCHER).permitAll()
+                        LOGIN_ANT_MATCHER, REFRESH_TOKEN_ANT_MATCHER,
+                        STREAM_DATA_MATCHER, WEB_SOCKET_ENTRYPOINT_MATCHER).permitAll()
                 .antMatchers(HttpMethod.GET, UPLOAD_GET_ANT_MATCHER).permitAll()
                 .antMatchers(HttpMethod.POST, UrlConstants.DEFAULT_UPLOAD_SONG_URL).hasAuthority("ARTIST")
                 .antMatchers(HttpMethod.POST, UrlConstants.DEFAULT_UPLOAD_ALBUM_URL).hasAuthority("ARTIST")
@@ -67,9 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         logger.info("Security configuration successful");
     }
 
-    @Bean
-    public UserDetailsService getUserDetailsService() {
-        return new CustomUserDetailsService();
+    public UserDetailsService getUserDetailsService(CustomUserDetailsService customUserDetailsService) {
+        return customUserDetailsService;
     }
 
     @Bean
@@ -78,16 +81,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider getAuthenticationProvider() {
+    public DaoAuthenticationProvider getAuthenticationProvider(CustomUserDetailsService customUserDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(getUserDetailsService());
+        provider.setUserDetailsService(getUserDetailsService(customUserDetailsService));
         provider.setPasswordEncoder(getPasswordEncoder());
         return provider;
     }
-//    @Bean
-//    public PersistentTokenRepository persistentTokenRepository() {
-//        InMemoryTokenRepositoryImpl memory = new InMemoryTokenRepositoryImpl();
-//        return memory;
-//    }
-
 }

@@ -2,8 +2,6 @@ package com.odeyalo.music.analog.spotify.dto.response;
 
 import com.odeyalo.music.analog.spotify.entity.song.Song;
 
-import java.util.List;
-
 public class SongResponseDTO {
     private String songId;
     private String songName;

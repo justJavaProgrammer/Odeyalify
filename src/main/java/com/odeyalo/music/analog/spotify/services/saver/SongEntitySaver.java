@@ -1,6 +1,5 @@
 package com.odeyalo.music.analog.spotify.services.saver;
 
-import com.odeyalo.music.analog.spotify.constants.ImageConstants;
 import com.odeyalo.music.analog.spotify.entity.Album;
 import com.odeyalo.music.analog.spotify.entity.Artist;
 import com.odeyalo.music.analog.spotify.entity.User;
@@ -10,12 +9,14 @@ import com.odeyalo.music.analog.spotify.repositories.ArtistRepository;
 import com.odeyalo.music.analog.spotify.repositories.SongRepository;
 import com.odeyalo.music.analog.spotify.services.upload.UploadFileService;
 import com.odeyalo.music.analog.spotify.storage.FileStorage;
+import com.odeyalo.music.analog.spotify.support.FileDurationReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,22 +31,24 @@ public class SongEntitySaver implements Saver<List<Song>> {
     private final ArtistRepository artistRepository;
     private final UploadFileService audioFileUploader;
     private final FileStorage fileStorage;
+    private final FileDurationReceiver fileDurationReceiver;
     private final Logger logger = LoggerFactory.getLogger(SongEntitySaver.class);
 
-    public SongEntitySaver(SongRepository songRepository, ArtistRepository repository, @Qualifier("uploadAudioFileService") UploadFileService audioFileUploader, @Qualifier("localAudioFileStorage") FileStorage fileStorage) {
+    public SongEntitySaver(SongRepository songRepository, ArtistRepository repository, @Qualifier("uploadAudioFileService") UploadFileService audioFileUploader, @Qualifier("localAudioFileStorage") FileStorage fileStorage, FileDurationReceiver fileDurationReceiver) {
         this.songRepository = songRepository;
         this.artistRepository = repository;
         this.audioFileUploader = audioFileUploader;
         this.fileStorage = fileStorage;
+        this.fileDurationReceiver = fileDurationReceiver;
     }
 
     @Override
     @Transactional
-    public void save(MultipartFile[] files, List<Song> songs, User user) throws IOException, NotSupportedFileTypeException {
+    public void save(MultipartFile[] files, List<Song> songs, User user) throws IOException, NotSupportedFileTypeException, UnsupportedAudioFileException {
         buildAndSaveSong(files, songs, user);
     }
 
-    public void buildAndSaveSong(MultipartFile[] files, List<Song> songs, User user) throws IOException, NotSupportedFileTypeException {
+    public void buildAndSaveSong(MultipartFile[] files, List<Song> songs, User user) throws IOException, NotSupportedFileTypeException, UnsupportedAudioFileException {
         Artist artist = this.artistRepository.findArtistByUser(user);
         List<Song> createdSongs = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {

@@ -117,8 +117,8 @@ class UploadFileControllerTest {
         String jwtToken = this.generateJWTToken(userEmail);
         Album album = buildAlbum();
         List<Song> songs = new ArrayList<>();
-        songs.add(Song.getSongBuilder().setName("Song1").buildSong());
-        songs.add(Song.getSongBuilder().setName("Song2").buildSong());
+        songs.add(Song.getSongBuilder().setName("Song1").setSongIndexInAlbum(1).buildSong());
+        songs.add(Song.getSongBuilder().setName("Song2").setSongIndexInAlbum(2).buildSong());
         album.setSongs(new HashSet<>(songs));
         String requestJson = this.objectMapper.writeValueAsString(album);
         InputStream audio = getFileInputStream(AUDIO_TEST_FILE_PATH);
@@ -139,7 +139,7 @@ class UploadFileControllerTest {
         String jwtToken = this.generateJWTToken(userEmail);
         Album album = buildAlbum();
         List<Song> songs = new ArrayList<>();
-        songs.add(Song.getSongBuilder().setName("Song1").buildSong());
+        songs.add(Song.getSongBuilder().setName("Song1").setSongIndexInAlbum(1).buildSong());
         album.setSongs(new HashSet<>(songs));
         String requestJson = this.objectMapper.writeValueAsString(album);
         InputStream audio = getFileInputStream(audioPath);
