@@ -22,6 +22,7 @@ public class Album {
     @ManyToOne
     private Artist artist;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("songIndexInAlbum")
     private Set<Song> songs;
     private Integer songCount;
 
