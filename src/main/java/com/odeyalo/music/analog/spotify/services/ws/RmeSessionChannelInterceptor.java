@@ -37,7 +37,7 @@ public class RmeSessionChannelInterceptor implements ChannelInterceptor {
                 Authentication authenticationFromToken = this.utils.getAuthenticationFromToken(header.substring(7));
                 accessor.setUser(authenticationFromToken);
 //                accessor.setLeaveMutable(true);
-                this.logger.info("USER NAME: " + accessor.getUser().getName());
+                this.logger.info("USERNAME: " + accessor.getUser().getName());
             }
             if (accessor.getCommand() == StompCommand.SEND) {
                 this.logger.info("SEND");
